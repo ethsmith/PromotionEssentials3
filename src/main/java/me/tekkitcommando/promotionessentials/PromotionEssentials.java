@@ -22,7 +22,7 @@ public class PromotionEssentials extends JavaPlugin {
     private Logger logger;
     private Yaml config = new Yaml("config", getDataFolder().getAbsolutePath());
     private Yaml messages = new Yaml("messages", getDataFolder().getAbsolutePath());
-    private Yaml tokens = new Yaml("token", getDataFolder().getAbsolutePath());
+    private Json tokens = new Json("token", getDataFolder().getAbsolutePath());
     private Json times = new Json("times", getDataFolder().getAbsolutePath());
     private Map<Player, String> confirmations = new HashMap<>();
     private PermissionsHandler permissionsHandler = new PermissionsHandler(this);
@@ -72,7 +72,7 @@ public class PromotionEssentials extends JavaPlugin {
         return messages;
     }
 
-    public Yaml getTokens() {
+    public Json getTokens() {
         return tokens;
     }
 
