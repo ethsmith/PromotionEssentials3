@@ -2,7 +2,11 @@ package me.tekkitcommando.promotionessentials;
 
 import de.leonhard.storage.Json;
 import de.leonhard.storage.Yaml;
+import me.tekkitcommando.promotionessentials.command.ApplyCommand;
 import me.tekkitcommando.promotionessentials.handler.PermissionsHandler;
+import me.tekkitcommando.promotionessentials.listener.PlayerChatListener;
+import me.tekkitcommando.promotionessentials.listener.PlayerJoinListener;
+import me.tekkitcommando.promotionessentials.listener.PlayerMoveListener;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.entity.Player;
@@ -47,6 +51,8 @@ public class PromotionEssentials extends JavaPlugin {
         }
 
         setupConfigFiles();
+        setupCommands();
+        setupListeners();
 
         if (permissionsHandler.getPermissionSystem() == null) {
             logger.warning("[PromotionEssentials] No permissions system found. Disabling plugin.");
@@ -104,6 +110,16 @@ public class PromotionEssentials extends JavaPlugin {
         }
 
         return permission != null;
+    }
+
+    private void setupCommands() {
+        getCommand("apply").setExecutor(new ApplyCommand(this));
+    }
+
+    private void setupListeners() {
+        getServer().getPluginManager().registerEvents(new PlayerChatListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerMoveListener(this), this);
     }
 
     private void setupConfigFiles() {
