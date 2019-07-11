@@ -40,6 +40,10 @@ public class ApplyCommand implements CommandExecutor {
                             plugin.getPermission().playerRemoveGroup(player, plugin.getPluginConfig().getString("apply.default"));
                         } else {
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("WrongPW")));
+
+                            if (plugin.getPluginConfig().getBoolean("apply.kickWrongPW")) {
+                                player.kickPlayer(plugin.getMessages().getString("WrongPW"));
+                            }
                         }
                     }
                 } else {
