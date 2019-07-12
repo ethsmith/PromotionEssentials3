@@ -3,6 +3,7 @@ package me.tekkitcommando.promotionessentials;
 import de.leonhard.storage.Json;
 import de.leonhard.storage.Yaml;
 import me.tekkitcommando.promotionessentials.command.ApplyCommand;
+import me.tekkitcommando.promotionessentials.command.TokenCommand;
 import me.tekkitcommando.promotionessentials.handler.PermissionsHandler;
 import me.tekkitcommando.promotionessentials.listener.PlayerChatListener;
 import me.tekkitcommando.promotionessentials.listener.PlayerJoinListener;
@@ -114,6 +115,7 @@ public class PromotionEssentials extends JavaPlugin {
 
     private void setupCommands() {
         getCommand("apply").setExecutor(new ApplyCommand(this));
+        getCommand("token").setExecutor(new TokenCommand(this));
     }
 
     private void setupListeners() {
@@ -158,6 +160,8 @@ public class PromotionEssentials extends JavaPlugin {
         messages.setDefault("WrongPW", "&cWrong PW!");
         messages.setDefault("TokenUse", "&a[PromotionEssentials] You have been successfully promoted to %group%!");
         messages.setDefault("CreateToken", "&a[PromotionEssentials] Created token %token% for %group%!");
+        messages.setDefault("TokenExpired", "&c[PromotionEssentials] That token has expired!");
+        messages.setDefault("TokenDoesntExist", "&c[PromotionEssentials] That token doesn't exist!");
         messages.setDefault("Join", "&5<player>, &aplease write /apply [Password] to get Permissions to build!");
         messages.setDefault("Mute", "&cYou are not allowed to chat!");
         messages.setDefault("FunctionDisabled", "&cThis function has been disabled by the server administrator!");
