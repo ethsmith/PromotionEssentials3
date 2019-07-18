@@ -24,7 +24,7 @@ public class PlayerChatListener implements Listener {
         List<String> groups = Arrays.asList(plugin.getPermission().getPlayerGroups(player));
 
         if (plugin.getPluginConfig().getBoolean("apply.mute")) {
-            if (!(groups.contains(plugin.getPluginConfig().getString("apply.promotion"))) && groups.contains("apply.default")) {
+            if (!(groups.contains(plugin.getPluginConfig().getString("apply.promotion"))) && groups.contains(plugin.getPluginConfig().getString("apply.default"))) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("Join")));
                 event.setCancelled(true);
             }
@@ -34,7 +34,7 @@ public class PlayerChatListener implements Listener {
             for (Player chatPlayer : plugin.getServer().getOnlinePlayers()) {
                 List<String> chatPlayerGroups = Arrays.asList(plugin.getPermission().getPlayerGroups(chatPlayer));
 
-                if (!(chatPlayerGroups.contains(plugin.getPluginConfig().getString("apply.promotion"))) && chatPlayerGroups.contains("apply.default")) {
+                if (!(chatPlayerGroups.contains(plugin.getPluginConfig().getString("apply.promotion"))) && chatPlayerGroups.contains(plugin.getPluginConfig().getString("apply.default"))) {
                     event.getRecipients().remove(chatPlayer);
                 }
             }

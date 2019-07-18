@@ -23,7 +23,7 @@ public class PlayerJoinListener implements Listener {
         Player player = event.getPlayer();
         List<String> groups = Arrays.asList(plugin.getPermission().getPlayerGroups(player));
 
-        if (!(groups.contains(plugin.getPluginConfig().getString("apply.promotion"))) && groups.contains("apply.default")) {
+        if (!(groups.contains(plugin.getPluginConfig().getString("apply.promotion"))) && groups.contains(plugin.getPluginConfig().getString("apply.default"))) {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("Join")));
         }
     }

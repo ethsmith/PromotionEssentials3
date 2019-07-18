@@ -36,8 +36,8 @@ public class ApplyCommand implements CommandExecutor {
 
                         if (plugin.getPluginConfig().getString("apply.password").equals(password)) {
                             // Promote player
-                            plugin.getPermission().playerAddGroup(player, plugin.getPluginConfig().getString("apply.promotion"));
                             plugin.getPermission().playerRemoveGroup(player, plugin.getPluginConfig().getString("apply.default"));
+                            plugin.getPermission().playerAddGroup(player, plugin.getPluginConfig().getString("apply.promotion"));
                         } else {
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("WrongPW")));
 

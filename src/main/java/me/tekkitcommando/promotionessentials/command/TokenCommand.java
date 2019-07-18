@@ -37,21 +37,23 @@ public class TokenCommand implements CommandExecutor {
                     String token = args[0];
 
                     if (plugin.getTokens().contains(token)) {
-                        // Check if expired
-                        DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
-                        DateTime dateTimeCreation = formatter.parseDateTime(plugin.getTokens().getString(token + ".creation"));
-                        DateTime dateTimeNow = getDateTime();
+                        if (plugin.getTokens().contains(token + ".expire")) {
+                            // Check if expired
+                            DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
+                            DateTime dateTimeExpired = formatter.parseDateTime(plugin.getTokens().getString(token + ".expire"));
 
-                        int hoursBetween = Hours.hoursBetween(dateTimeCreation, dateTimeNow).getHours();
-                        int minutesBetween = Minutes.minutesBetween(dateTimeCreation, dateTimeNow).minus(hoursBetween * 60).getMinutes();
-                        int secondsBetween = Seconds.secondsBetween(dateTimeCreation, dateTimeNow).minus(minutesBetween * 60).getSeconds();
-
-                        if (hoursBetween <= 0 && minutesBetween <= 0 && secondsBetween <= 0) {
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("messages.TokenExpired")));
-                            plugin.getTokens().remove(token);
+                            if (dateTimeExpired.isBeforeNow()) {
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("messages.TokenExpired")));
+                                plugin.getTokens().removeKey(token);
+                            } else {
+                                plugin.getPermission().playerRemoveGroup(player, plugin.getPermission().getPrimaryGroup(player));
+                                plugin.getPermission().playerAddGroup(player, plugin.getTokens().getString(token + ".group"));
+                                plugin.getTokens().removeKey(token);
+                            }
                         } else {
+                            plugin.getPermission().playerRemoveGroup(player, plugin.getPermission().getPrimaryGroup(player));
                             plugin.getPermission().playerAddGroup(player, plugin.getTokens().getString(token + ".group"));
-                            plugin.getTokens().remove(token);
+                            plugin.getTokens().removeKey(token);
                         }
                     } else {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("TokenDoesntExist")));
@@ -64,7 +66,7 @@ public class TokenCommand implements CommandExecutor {
                         String expiration = null;
 
                         if (args.length > 2) {
-                            expiration = args[2];
+                            expiration = args[2].toLowerCase();
                         }
 
                         // Create token
@@ -74,10 +76,24 @@ public class TokenCommand implements CommandExecutor {
                         plugin.getTokens().set(tokenFormatted + ".group", group);
 
                         if (!(expiration == null)) {
-                            DateTime dateTimeNow = getDateTime();
+                            // 01h01m30s
+                            int hours;
+                            int minutes;
+                            int seconds;
 
-                            plugin.getTokens().set(tokenFormatted + ".creation", dateTimeNow.toString());
-                            plugin.getTokens().set(tokenFormatted + ".expire", expiration);
+                            try {
+                                hours = Integer.parseInt(expiration.substring(0, 2));
+                                minutes = Integer.parseInt(expiration.substring(3, 5));
+                                seconds = Integer.parseInt(expiration.substring(6, 8));
+                            } catch (NumberFormatException e) {
+                                player.sendMessage(ChatColor.RED + "[PromotionEssentials] Invalid arguments!");
+                                return true;
+                            }
+
+                            DateTime dateTimeNow = getDateTime();
+                            DateTime dateTimeExpired = dateTimeNow.plus(Hours.hours(hours)).plus(Minutes.minutes(minutes)).plus(Seconds.seconds(seconds));
+
+                            plugin.getTokens().set(tokenFormatted + ".expire", dateTimeExpired.toString());
                         }
                     } else {
                         player.sendMessage(ChatColor.RED + "[PromotionEssentials] Invalid arguments!");

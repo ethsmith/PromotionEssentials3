@@ -1,1 +1,7 @@
+me\tekkitcommando\promotionessentials\handler\PermissionsHandler.class
 me\tekkitcommando\promotionessentials\PromotionEssentials.class
+me\tekkitcommando\promotionessentials\command\TokenCommand.class
+me\tekkitcommando\promotionessentials\listener\PlayerMoveListener.class
+me\tekkitcommando\promotionessentials\listener\PlayerChatListener.class
+me\tekkitcommando\promotionessentials\command\ApplyCommand.class
+me\tekkitcommando\promotionessentials\listener\PlayerJoinListener.class
