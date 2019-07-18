@@ -76,24 +76,14 @@ public class TokenCommand implements CommandExecutor {
                         plugin.getTokens().set(tokenFormatted + ".group", group);
 
                         if (!(expiration == null)) {
-                            // 01h01m30s
-                            int hours;
-                            int minutes;
-                            int seconds;
+                            DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
+                            DateTime dateTimeExpired = getDateTimeExpired(formatter, expiration);
 
-                            try {
-                                hours = Integer.parseInt(expiration.substring(0, 2));
-                                minutes = Integer.parseInt(expiration.substring(3, 5));
-                                seconds = Integer.parseInt(expiration.substring(6, 8));
-                            } catch (NumberFormatException e) {
+                            if (dateTimeExpired != null) {
+                                plugin.getTokens().set(tokenFormatted + ".expire", dateTimeExpired.toString());
+                            } else {
                                 player.sendMessage(ChatColor.RED + "[PromotionEssentials] Invalid arguments!");
-                                return true;
                             }
-
-                            DateTime dateTimeNow = getDateTime();
-                            DateTime dateTimeExpired = dateTimeNow.plus(Hours.hours(hours)).plus(Minutes.minutes(minutes)).plus(Seconds.seconds(seconds));
-
-                            plugin.getTokens().set(tokenFormatted + ".expire", dateTimeExpired.toString());
                         }
                     } else {
                         player.sendMessage(ChatColor.RED + "[PromotionEssentials] Invalid arguments!");
@@ -106,11 +96,30 @@ public class TokenCommand implements CommandExecutor {
         return true;
     }
 
-    private DateTime getDateTime() {
-        DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
+    private DateTime getDateTime(DateTimeFormatter formatter) {
         DateTime dateTimeNow = DateTime.now();
         String dateTimeString = dateTimeNow.toString(formatter);
 
         return formatter.parseDateTime(dateTimeString);
+    }
+
+    private DateTime getDateTimeExpired(DateTimeFormatter formatter, String expiration) {
+        int hours;
+        int minutes;
+        int seconds;
+
+        try {
+            hours = Integer.parseInt(expiration.substring(0, 2));
+            minutes = Integer.parseInt(expiration.substring(3, 5));
+            seconds = Integer.parseInt(expiration.substring(6, 8));
+        } catch (NumberFormatException e) {
+            return null;
+        }
+
+        DateTime dateTimeNow = getDateTime(formatter);
+        DateTime dateTimeExpired = dateTimeNow.plus(Hours.hours(hours)).plus(Minutes.minutes(minutes)).plus(Seconds.seconds(seconds));
+        String dateTimeExpiredStr = dateTimeExpired.toString(formatter);
+
+        return formatter.parseDateTime(dateTimeExpiredStr);
     }
 }
