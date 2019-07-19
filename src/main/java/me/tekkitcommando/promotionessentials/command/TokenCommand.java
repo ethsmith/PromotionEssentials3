@@ -1,7 +1,6 @@
 package me.tekkitcommando.promotionessentials.command;
 
 import me.tekkitcommando.promotionessentials.PromotionEssentials;
-import net.milkbowl.vault.chat.Chat;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -45,8 +44,7 @@ public class TokenCommand implements CommandExecutor {
                         if (plugin.getTokens().contains(token)) {
                             if (plugin.getTokens().contains(token + ".expire")) {
                                 // Check if expired
-                                DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
-                                DateTime dateTimeExpired = formatter.parseDateTime(plugin.getTokens().getString(token + ".expire"));
+                                DateTime dateTimeExpired = plugin.getDateTimeHandler().getFormatter().parseDateTime(plugin.getTokens().getString(token + ".expire"));
 
                                 if (dateTimeExpired.isBeforeNow()) {
                                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("TokenExpired")));
@@ -86,8 +84,7 @@ public class TokenCommand implements CommandExecutor {
                             plugin.getTokens().set(tokenFormatted + ".group", group);
 
                             if (!(expiration == null)) {
-                                DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
-                                DateTime dateTimeExpired = getDateTimeExpired(formatter, expiration);
+                                DateTime dateTimeExpired = getDateTimeExpired(plugin.getDateTimeHandler().getFormatter(), expiration);
 
                                 if (dateTimeExpired != null) {
                                     plugin.getTokens().set(tokenFormatted + ".expire", dateTimeExpired.toString());
@@ -109,13 +106,6 @@ public class TokenCommand implements CommandExecutor {
         return true;
     }
 
-    private DateTime getDateTime(DateTimeFormatter formatter) {
-        DateTime dateTimeNow = DateTime.now();
-        String dateTimeString = dateTimeNow.toString(formatter);
-
-        return formatter.parseDateTime(dateTimeString);
-    }
-
     private DateTime getDateTimeExpired(DateTimeFormatter formatter, String expiration) {
         int hours;
         int minutes;
@@ -129,7 +119,7 @@ public class TokenCommand implements CommandExecutor {
             return null;
         }
 
-        DateTime dateTimeNow = getDateTime(formatter);
+        DateTime dateTimeNow = plugin.getDateTimeHandler().getDateTime(formatter);
         DateTime dateTimeExpired = dateTimeNow.plus(Hours.hours(hours)).plus(Minutes.minutes(minutes)).plus(Seconds.seconds(seconds));
         String dateTimeExpiredStr = dateTimeExpired.toString(formatter);
 

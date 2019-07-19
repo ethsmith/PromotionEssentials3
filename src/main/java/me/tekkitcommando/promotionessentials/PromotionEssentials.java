@@ -5,6 +5,7 @@ import de.leonhard.storage.Yaml;
 import me.tekkitcommando.promotionessentials.command.ApplyCommand;
 import me.tekkitcommando.promotionessentials.command.RankCommand;
 import me.tekkitcommando.promotionessentials.command.TokenCommand;
+import me.tekkitcommando.promotionessentials.handler.DateTimeHandler;
 import me.tekkitcommando.promotionessentials.handler.PermissionsHandler;
 import me.tekkitcommando.promotionessentials.listener.*;
 import net.milkbowl.vault.economy.Economy;
@@ -26,6 +27,7 @@ public class PromotionEssentials extends JavaPlugin {
     private Json times = new Json("times", getDataFolder().getAbsolutePath());
     private Map<Player, String> confirmations = new HashMap<>();
     private PermissionsHandler permissionsHandler = new PermissionsHandler(this);
+    private DateTimeHandler dateTimeHandler = new DateTimeHandler();
 
     // Vault
     private Economy economy = null;
@@ -39,6 +41,7 @@ public class PromotionEssentials extends JavaPlugin {
     @Override
     public void onEnable() {
         logger = this.getLogger();
+
 
         if (!(registerEconomy())) {
             logger.warning("[PromotionEssentials] You must have vault installed for this plugin!");
@@ -92,6 +95,10 @@ public class PromotionEssentials extends JavaPlugin {
         return economy;
     }
 
+    public DateTimeHandler getDateTimeHandler() {
+        return dateTimeHandler;
+    }
+
     private boolean registerEconomy() {
         RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
 
@@ -130,8 +137,8 @@ public class PromotionEssentials extends JavaPlugin {
         Map<String, String> timedRanks = new HashMap<>();
         Map<String, Double> purchasedRanks = new HashMap<>();
 
-        timedRanks.put("member", "15m30s");
-        timedRanks.put("elite", "24h");
+        timedRanks.put("member", "00h15m30s");
+        timedRanks.put("elite", "24h00m00s");
         timedRanks.put("legend", "48h30m15s");
 
         purchasedRanks.put("member", 1000.00);
