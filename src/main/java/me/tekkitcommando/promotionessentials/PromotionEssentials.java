@@ -7,6 +7,7 @@ import me.tekkitcommando.promotionessentials.command.RankCommand;
 import me.tekkitcommando.promotionessentials.command.TokenCommand;
 import me.tekkitcommando.promotionessentials.handler.DateTimeHandler;
 import me.tekkitcommando.promotionessentials.handler.PermissionsHandler;
+import me.tekkitcommando.promotionessentials.handler.TaskHandler;
 import me.tekkitcommando.promotionessentials.listener.*;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
@@ -28,6 +29,7 @@ public class PromotionEssentials extends JavaPlugin {
     private Map<Player, String> confirmations = new HashMap<>();
     private PermissionsHandler permissionsHandler = new PermissionsHandler(this);
     private DateTimeHandler dateTimeHandler = new DateTimeHandler();
+    private TaskHandler taskHandler = new TaskHandler();
 
     // Vault
     private Economy economy = null;
@@ -67,6 +69,10 @@ public class PromotionEssentials extends JavaPlugin {
         logger.info("[PromotionEssentials] Enabled!");
     }
 
+    public Logger getPluginLogger() {
+        return logger;
+    }
+
     public Yaml getPluginConfig() {
         return config;
     }
@@ -97,6 +103,10 @@ public class PromotionEssentials extends JavaPlugin {
 
     public DateTimeHandler getDateTimeHandler() {
         return dateTimeHandler;
+    }
+
+    public TaskHandler getTaskHandler() {
+        return taskHandler;
     }
 
     private boolean registerEconomy() {

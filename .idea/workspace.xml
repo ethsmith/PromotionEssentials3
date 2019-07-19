@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa559e52-499c-4cdc-994c-f0612a548ad3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/handler/DateTimeHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/handler/TaskHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/PromotionEssentials.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/PromotionEssentials.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/command/TokenCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/command/TokenCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/listener/PlayerJoinListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/listener/PlayerJoinListener.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -21,13 +20,44 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/PromotionEssentials.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="657">
+              <caret line="107" column="41" selection-start-line="107" selection-start-column="41" selection-end-line="107" selection-end-column="41" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2826#2827#0" expanded="true" />
+                <element signature="e#2855#2856#0" expanded="true" />
+                <element signature="e#3187#3188#0" expanded="true" />
+                <element signature="e#3225#3226#0" expanded="true" />
+                <element signature="e#3493#3494#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/listener/PlayerJoinListener.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="47" column="62" lean-forward="true" selection-start-line="47" selection-start-column="62" selection-end-line="47" selection-end-column="62" />
+            <state relative-caret-position="643">
+              <caret line="101" column="17" lean-forward="true" selection-start-line="101" selection-start-column="17" selection-end-line="101" selection-end-column="17" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/handler/TaskHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="11" column="5" lean-forward="true" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#302#303#0" expanded="true" />
+                <element signature="e#337#338#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -58,9 +88,10 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/listener/PlayerInteractListener.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/command/RankCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/PromotionEssentials.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/handler/DateTimeHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/command/TokenCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/handler/TaskHandler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/PromotionEssentials.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/listener/PlayerJoinListener.java" />
       </list>
     </option>
@@ -93,7 +124,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -195,6 +225,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -211,6 +242,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -247,18 +279,19 @@
       <workItem from="1563286783111" duration="46000" />
       <workItem from="1563466220223" duration="6142000" />
       <workItem from="1563551285095" duration="4908000" />
-      <workItem from="1563563298126" duration="3487000" />
+      <workItem from="1563563298126" duration="4390000" />
+      <workItem from="1563574215852" duration="2060000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26780000" />
+    <option name="totallyTimeSpent" value="29743000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1913646" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19349681" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -426,16 +459,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/command/TokenCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="657">
-          <caret line="119" column="9" lean-forward="true" selection-start-line="119" selection-start-column="9" selection-end-line="119" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/handler/DateTimeHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
@@ -446,21 +469,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/PromotionEssentials.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/command/TokenCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="691">
-          <caret line="97" column="49" selection-start-line="97" selection-start-column="49" selection-end-line="97" selection-end-column="49" />
+        <state relative-caret-position="884">
+          <caret line="119" column="9" lean-forward="true" selection-start-line="119" selection-start-column="9" selection-end-line="119" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/PromotionEssentials.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="657">
+          <caret line="107" column="41" selection-start-line="107" selection-start-column="41" selection-end-line="107" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2826#2827#0" expanded="true" />
+            <element signature="e#2855#2856#0" expanded="true" />
+            <element signature="e#3187#3188#0" expanded="true" />
             <element signature="e#3225#3226#0" expanded="true" />
+            <element signature="e#3493#3494#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/handler/TaskHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="5" lean-forward="true" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#302#303#0" expanded="true" />
+            <element signature="e#337#338#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/me/tekkitcommando/promotionessentials/listener/PlayerJoinListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="47" column="62" lean-forward="true" selection-start-line="47" selection-start-column="62" selection-end-line="47" selection-end-column="62" />
+        <state relative-caret-position="643">
+          <caret line="101" column="17" lean-forward="true" selection-start-line="101" selection-start-column="17" selection-end-line="101" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
