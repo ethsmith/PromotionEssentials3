@@ -41,54 +41,62 @@ public class TokenCommand implements CommandExecutor {
                     // Redeem token
                     String token = args[0];
 
-                    if (plugin.getTokens().contains(token)) {
-                        if (plugin.getTokens().contains(token + ".expire")) {
-                            // Check if expired
-                            DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
-                            DateTime dateTimeExpired = formatter.parseDateTime(plugin.getTokens().getString(token + ".expire"));
+                    if (player.hasPermission("pe.token.use") || player.hasPermission("pe.token.*")) {
+                        if (plugin.getTokens().contains(token)) {
+                            if (plugin.getTokens().contains(token + ".expire")) {
+                                // Check if expired
+                                DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
+                                DateTime dateTimeExpired = formatter.parseDateTime(plugin.getTokens().getString(token + ".expire"));
 
-                            if (dateTimeExpired.isBeforeNow()) {
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("TokenExpired")));
-                                plugin.getTokens().removeKey(token);
+                                if (dateTimeExpired.isBeforeNow()) {
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("TokenExpired")));
+                                    plugin.getTokens().removeKey(token);
+                                } else {
+                                    plugin.getPermission().playerRemoveGroup(player, plugin.getPermission().getPrimaryGroup(player));
+                                    plugin.getPermission().playerAddGroup(player, plugin.getTokens().getString(token + ".group"));
+                                    plugin.getTokens().removeKey(token);
+                                }
                             } else {
                                 plugin.getPermission().playerRemoveGroup(player, plugin.getPermission().getPrimaryGroup(player));
                                 plugin.getPermission().playerAddGroup(player, plugin.getTokens().getString(token + ".group"));
                                 plugin.getTokens().removeKey(token);
                             }
                         } else {
-                            plugin.getPermission().playerRemoveGroup(player, plugin.getPermission().getPrimaryGroup(player));
-                            plugin.getPermission().playerAddGroup(player, plugin.getTokens().getString(token + ".group"));
-                            plugin.getTokens().removeKey(token);
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("TokenDoesntExist")));
                         }
                     } else {
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("TokenDoesntExist")));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("NoPermissions")));
                     }
                 } else if (args.length > 1) {
                     String subcommand = args[0];
 
                     if (subcommand.equalsIgnoreCase("create")) {
-                        String group = args[1];
-                        String expiration = null;
+                        if (player.hasPermission("pe.token.create") || player.hasPermission("pe.token.*")) {
+                            String group = args[1];
+                            String expiration = null;
 
-                        if (args.length > 2) {
-                            expiration = args[2].toLowerCase();
-                        }
-
-                        // Create token
-                        UUID token = UUID.randomUUID();
-                        String tokenFormatted = token.toString().replace("-", "");
-
-                        plugin.getTokens().set(tokenFormatted + ".group", group);
-
-                        if (!(expiration == null)) {
-                            DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
-                            DateTime dateTimeExpired = getDateTimeExpired(formatter, expiration);
-
-                            if (dateTimeExpired != null) {
-                                plugin.getTokens().set(tokenFormatted + ".expire", dateTimeExpired.toString());
-                            } else {
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("InvalidArgs")));
+                            if (args.length > 2) {
+                                expiration = args[2].toLowerCase();
                             }
+
+                            // Create token
+                            UUID token = UUID.randomUUID();
+                            String tokenFormatted = token.toString().replace("-", "");
+
+                            plugin.getTokens().set(tokenFormatted + ".group", group);
+
+                            if (!(expiration == null)) {
+                                DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
+                                DateTime dateTimeExpired = getDateTimeExpired(formatter, expiration);
+
+                                if (dateTimeExpired != null) {
+                                    plugin.getTokens().set(tokenFormatted + ".expire", dateTimeExpired.toString());
+                                } else {
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("InvalidArgs")));
+                                }
+                            }
+                        } else {
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("NoPermissions")));
                         }
                     } else {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("InvalidArgs")));

@@ -52,7 +52,7 @@ public class RankCommand implements CommandExecutor {
 
                     if (subcommand.equalsIgnoreCase("buy")) {
                         if (plugin.getPluginConfig().contains("buy.groups." + rank)) {
-                            if (player.hasPermission("pe.rank.buy." + rank) || player.hasPermission("pe.rank.buy")) {
+                            if (player.hasPermission("pe.rank.buy." + rank) || player.hasPermission("pe.rank.buy.*")) {
                                 if (plugin.getEconomy().has(player, plugin.getConfig().getDouble("buy.groups." + rank))) {
                                     plugin.getEconomy().withdrawPlayer(player, plugin.getConfig().getDouble("buy.groups." + rank));
                                     plugin.getPermission().playerRemoveGroup(player, plugin.getPermission().getPrimaryGroup(player));
