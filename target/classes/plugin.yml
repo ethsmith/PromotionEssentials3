@@ -1,6 +1,6 @@
 name: PromotionEssentials
 authors: [TekkitCommando]
-version: 1.0.0
+version: 2.0.0
 
 depend: [Vault]
 
@@ -11,3 +11,5 @@ commands:
     usage: /apply <password>
   token:
     usage: /token <token>
+  rank:
+    usage: /rank <subcommand>

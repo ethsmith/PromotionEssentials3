@@ -3,11 +3,10 @@ package me.tekkitcommando.promotionessentials;
 import de.leonhard.storage.Json;
 import de.leonhard.storage.Yaml;
 import me.tekkitcommando.promotionessentials.command.ApplyCommand;
+import me.tekkitcommando.promotionessentials.command.RankCommand;
 import me.tekkitcommando.promotionessentials.command.TokenCommand;
 import me.tekkitcommando.promotionessentials.handler.PermissionsHandler;
-import me.tekkitcommando.promotionessentials.listener.PlayerChatListener;
-import me.tekkitcommando.promotionessentials.listener.PlayerJoinListener;
-import me.tekkitcommando.promotionessentials.listener.PlayerMoveListener;
+import me.tekkitcommando.promotionessentials.listener.*;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.entity.Player;
@@ -116,12 +115,15 @@ public class PromotionEssentials extends JavaPlugin {
     private void setupCommands() {
         getCommand("apply").setExecutor(new ApplyCommand(this));
         getCommand("token").setExecutor(new TokenCommand(this));
+        getCommand("rank").setExecutor(new RankCommand(this));
     }
 
     private void setupListeners() {
         getServer().getPluginManager().registerEvents(new PlayerChatListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerMoveListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
+        getServer().getPluginManager().registerEvents(new SignChangeListener(this), this);
     }
 
     private void setupConfigFiles() {
@@ -135,6 +137,8 @@ public class PromotionEssentials extends JavaPlugin {
         purchasedRanks.put("member", 1000.00);
         purchasedRanks.put("elite", 10000.00);
         purchasedRanks.put("legend", 100000.00);
+
+        config.setDefault("token.enabled", true);
 
         config.setDefault("apply.enabled", false);
         config.setDefault("apply.password", "changeme");
@@ -150,26 +154,28 @@ public class PromotionEssentials extends JavaPlugin {
         config.setDefault("time.countOffline", false);
 
         config.setDefault("buy.enabled", true);
+        config.setDefault("buy.rankListHeader", "&aPurchasable Ranks");
+        config.setDefault("buy.rankListColor", "RED");
         config.setDefault("buy.groups", purchasedRanks);
-        config.setDefault("buy.hierarchy", false);
 
-        messages.setDefault("NoPermissions", "&cYou do not have permission to do this!");
+        messages.setDefault("NoPermissions", "&c[PromotionEssentials] You do not have permission to do this!");
         messages.setDefault("CreatedSign", "&a[PromotionEssentials] Successfully created a promotion sign!");
         messages.setDefault("UsedSign", "&a[PromotionEssentials] Successfully promoted to %group%!");
         messages.setDefault("UsedPW", "&a[PromotionEssentials] You have been successfully promoted to %group%!");
-        messages.setDefault("WrongPW", "&cWrong PW!");
+        messages.setDefault("WrongPW", "&c[PromotionEssentials] Wrong PW!");
         messages.setDefault("TokenUse", "&a[PromotionEssentials] You have been successfully promoted to %group%!");
         messages.setDefault("CreateToken", "&a[PromotionEssentials] Created token %token% for %group%!");
         messages.setDefault("TokenExpired", "&c[PromotionEssentials] That token has expired!");
         messages.setDefault("TokenDoesntExist", "&c[PromotionEssentials] That token doesn't exist!");
-        messages.setDefault("Join", "&5<player>, &aplease write /apply [Password] to get Permissions to build!");
-        messages.setDefault("Mute", "&cYou are not allowed to chat!");
-        messages.setDefault("FunctionDisabled", "&cThis function has been disabled by the server administrator!");
-        messages.setDefault("BuyRank", "&5Do you really want to buy %group% for %price%?");
-        messages.setDefault("CantBuyRank", "&cYou can not buy this rank!");
-        messages.setDefault("NoMoney", "&cYou do not have enough money to buy this rank!");
-        messages.setDefault("BoughtRank", "&aBought rank %group%!");
-        messages.setDefault("Confirm", "&5Type /peconfirm to continue");
-        messages.setDefault("PromotedAfterTime", "&aYou have been promoted to %group%!");
+        messages.setDefault("Join", "&a[PromotionEssentials] %player%, &aplease write /apply [Password] to get Permissions to build!");
+        messages.setDefault("Mute", "&c[PromotionEssentials] You are not allowed to chat!");
+        messages.setDefault("FunctionDisabled", "&c[PromotionEssentials] This function has been disabled by the server administrator!");
+        messages.setDefault("BuyRank", "&a[PromotionEssentials] Do you really want to buy %group% for %price%?");
+        messages.setDefault("CantBuyRank", "&c[PromotionEssentials] You can not buy this rank!");
+        messages.setDefault("NoMoney", "&c[PromotionEssentials] You do not have enough money to buy this rank!");
+        messages.setDefault("BoughtRank", "&a[PromotionEssentials] Bought rank %group%!");
+        messages.setDefault("Confirm", "&a[PromotionEssentials] Type /peconfirm to continue");
+        messages.setDefault("PromotedAfterTime", "&a[PromotionEssentials] You have been promoted to %group%!");
+        messages.setDefault("InvalidArgs", "&c[PromotionEssentials] Invalid arguments!");
     }
 }

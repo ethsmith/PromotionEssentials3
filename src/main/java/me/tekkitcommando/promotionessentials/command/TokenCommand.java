@@ -32,6 +32,11 @@ public class TokenCommand implements CommandExecutor {
             } else {
                 Player player = (Player) sender;
 
+                if (!(plugin.getPluginConfig().getBoolean("token.enabled"))) {
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("FunctionDisabled")));
+                    return true;
+                }
+
                 if (args.length == 1) {
                     // Redeem token
                     String token = args[0];
@@ -43,7 +48,7 @@ public class TokenCommand implements CommandExecutor {
                             DateTime dateTimeExpired = formatter.parseDateTime(plugin.getTokens().getString(token + ".expire"));
 
                             if (dateTimeExpired.isBeforeNow()) {
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("messages.TokenExpired")));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("TokenExpired")));
                                 plugin.getTokens().removeKey(token);
                             } else {
                                 plugin.getPermission().playerRemoveGroup(player, plugin.getPermission().getPrimaryGroup(player));
@@ -82,14 +87,14 @@ public class TokenCommand implements CommandExecutor {
                             if (dateTimeExpired != null) {
                                 plugin.getTokens().set(tokenFormatted + ".expire", dateTimeExpired.toString());
                             } else {
-                                player.sendMessage(ChatColor.RED + "[PromotionEssentials] Invalid arguments!");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("InvalidArgs")));
                             }
                         }
                     } else {
-                        player.sendMessage(ChatColor.RED + "[PromotionEssentials] Invalid arguments!");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("InvalidArgs")));
                     }
                 } else {
-                    player.sendMessage(ChatColor.RED + "[PromotionEssentials] Invalid arguments!");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("InvalidArgs")));
                 }
             }
         }
