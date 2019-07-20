@@ -57,6 +57,8 @@ public class TokenCommand implements CommandExecutor {
                                 plugin.getPermission().playerRemoveGroup(player, plugin.getPermission().getPrimaryGroup(player));
                                 plugin.getPermission().playerAddGroup(player, plugin.getTokens().getString(token + ".group"));
                                 plugin.getTokens().removeKey(token);
+
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("TokenUse")));
                             }
                         } else {
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("TokenDoesntExist")));
@@ -86,7 +88,8 @@ public class TokenCommand implements CommandExecutor {
                                 DateTime dateTimeExpired = getDateTimeExpired(plugin.getDateTimeHandler().getFormatter(), expiration);
 
                                 if (dateTimeExpired != null) {
-                                    plugin.getTokens().set(tokenFormatted + ".expire", dateTimeExpired.toString());
+                                    plugin.getTokens().set(tokenFormatted + ".expire", dateTimeExpired.toString(plugin.getDateTimeHandler().getFormatter()));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("CreateToken")));
                                 } else {
                                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("InvalidArgs")));
                                 }

@@ -33,6 +33,7 @@ public class SignChangeListener implements Listener {
                         return;
                     }
                     event.setLine(0, ChatColor.GREEN + "[Promote]");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("CreatedSign")));
                 } else {
                     player.sendMessage(ChatColor.RED + "This type of sign requres the following format: [Promote]\n<rank>\n<price>");
                     event.setCancelled(true);

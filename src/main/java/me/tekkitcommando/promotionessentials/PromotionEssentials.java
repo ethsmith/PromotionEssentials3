@@ -196,10 +196,9 @@ public class PromotionEssentials extends JavaPlugin {
         messages.setDefault("Mute", "&c[PromotionEssentials] You are not allowed to chat!");
         messages.setDefault("FunctionDisabled", "&c[PromotionEssentials] This function has been disabled by the server administrator!");
         messages.setDefault("BuyRank", "&a[PromotionEssentials] Do you really want to buy %group% for %price%?");
-        messages.setDefault("CantBuyRank", "&c[PromotionEssentials] You can not buy this rank!");
+        messages.setDefault("CantBuyRank", "&c[PromotionEssentials] You can not buy this rank! Either it doesn't exist or you already own it.");
         messages.setDefault("NoMoney", "&c[PromotionEssentials] You do not have enough money to buy this rank!");
         messages.setDefault("BoughtRank", "&a[PromotionEssentials] Bought rank %group%!");
-        messages.setDefault("Confirm", "&a[PromotionEssentials] Type /peconfirm to continue");
         messages.setDefault("PromotedAfterTime", "&a[PromotionEssentials] You have been promoted to %group%!");
         messages.setDefault("InvalidArgs", "&c[PromotionEssentials] Invalid arguments!");
     }

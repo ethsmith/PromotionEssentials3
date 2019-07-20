@@ -23,19 +23,21 @@ public class PlayerChatListener implements Listener {
         Player player = event.getPlayer();
         List<String> groups = Arrays.asList(plugin.getPermission().getPlayerGroups(player));
 
-        if (plugin.getPluginConfig().getBoolean("apply.mute")) {
-            if (!(groups.contains(plugin.getPluginConfig().getString("apply.promotion"))) && groups.contains(plugin.getPluginConfig().getString("apply.default"))) {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("Join")));
-                event.setCancelled(true);
+        if (plugin.getPluginConfig().getBoolean("apply.enabled")) {
+            if (plugin.getPluginConfig().getBoolean("apply.mute")) {
+                if (!(groups.contains(plugin.getPluginConfig().getString("apply.promotion"))) && groups.contains(plugin.getPluginConfig().getString("apply.default"))) {
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("Join").replace("%player%", player.getName())));
+                    event.setCancelled(true);
+                }
             }
-        }
 
-        if (plugin.getPluginConfig().getBoolean("apply.blockViewChat")) {
-            for (Player chatPlayer : plugin.getServer().getOnlinePlayers()) {
-                List<String> chatPlayerGroups = Arrays.asList(plugin.getPermission().getPlayerGroups(chatPlayer));
+            if (plugin.getPluginConfig().getBoolean("apply.blockViewChat")) {
+                for (Player chatPlayer : plugin.getServer().getOnlinePlayers()) {
+                    List<String> chatPlayerGroups = Arrays.asList(plugin.getPermission().getPlayerGroups(chatPlayer));
 
-                if (!(chatPlayerGroups.contains(plugin.getPluginConfig().getString("apply.promotion"))) && chatPlayerGroups.contains(plugin.getPluginConfig().getString("apply.default"))) {
-                    event.getRecipients().remove(chatPlayer);
+                    if (!(chatPlayerGroups.contains(plugin.getPluginConfig().getString("apply.promotion"))) && chatPlayerGroups.contains(plugin.getPluginConfig().getString("apply.default"))) {
+                        event.getRecipients().remove(chatPlayer);
+                    }
                 }
             }
         }

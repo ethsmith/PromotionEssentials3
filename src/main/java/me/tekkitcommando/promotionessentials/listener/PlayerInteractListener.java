@@ -31,14 +31,31 @@ public class PlayerInteractListener implements Listener {
                 if (sign.getLine(0).equals(ChatColor.GREEN + "[Promote]")) {
                     String group = sign.getLine(1);
 
-                    if (player.hasPermission("pe.sign.use." + group) || player.hasPermission("pe.sign.use")) {
+                    if (player.hasPermission("pe.sign.use." + group) || player.hasPermission("pe.sign.use.*")) {
                         double price = Double.valueOf(sign.getLine(2));
+                        boolean rankExists = false;
 
-                        if (plugin.getEconomy().has(player, price)) {
-                            plugin.getEconomy().withdrawPlayer(player, price);
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("UsedSign")).replace("%group%", group));
+                        for (String rank : plugin.getPermission().getGroups()) {
+                            if (rank.equalsIgnoreCase(group)) {
+                                rankExists = true;
+                            }
+                        }
+
+                        if (rankExists) {
+                            if (!plugin.getPermission().getPrimaryGroup(player).equalsIgnoreCase(group)) {
+                                if (plugin.getEconomy().has(player, price)) {
+                                    plugin.getEconomy().withdrawPlayer(player, price);
+                                    plugin.getPermission().playerRemoveGroup(player, plugin.getPermission().getPrimaryGroup(player));
+                                    plugin.getPermission().playerAddGroup(player, group);
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("UsedSign")).replace("%group%", group));
+                                } else {
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("NoMoney")));
+                                }
+                            } else {
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("CantBuyRank")));
+                            }
                         } else {
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("NoMoney")));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("CantBuyRank")));
                         }
                     } else {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("NoPermissions")));
