@@ -38,6 +38,8 @@ public class ApplyCommand implements CommandExecutor {
                             // Promote player
                             plugin.getPermission().playerRemoveGroup(player, plugin.getPluginConfig().getString("apply.default"));
                             plugin.getPermission().playerAddGroup(player, plugin.getPluginConfig().getString("apply.promotion"));
+
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("UsedPW").replace("%group%", plugin.getPluginConfig().getString("apply.default"))));
                         } else {
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("WrongPW")));
 

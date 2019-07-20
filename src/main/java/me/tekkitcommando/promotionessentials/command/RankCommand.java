@@ -59,7 +59,7 @@ public class RankCommand implements CommandExecutor {
                                         plugin.getPermission().playerRemoveGroup(player, plugin.getPermission().getPrimaryGroup(player));
                                         plugin.getPermission().playerAddGroup(player, rank);
 
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("BoughtRank")));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("BoughtRank")).replace("%group%", rank));
                                     } else {
                                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("NoMoney")));
                                     }

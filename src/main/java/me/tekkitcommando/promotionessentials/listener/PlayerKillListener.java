@@ -1,6 +1,7 @@
 package me.tekkitcommando.promotionessentials.listener;
 
 import me.tekkitcommando.promotionessentials.PromotionEssentials;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
@@ -23,30 +24,32 @@ public class PlayerKillListener implements Listener {
             Player player = event.getEntity().getKiller();
             Entity entity = event.getEntity();
 
-            if (player.hasPermission("pe.kill.promote")) {
-                if (entity instanceof Animals) {
-                    if (!plugin.getPluginConfig().getBoolean("kill.countFriendlyMobs")) {
-                        return;
+            if (plugin.getPluginConfig().getBoolean("kill.enabled")) {
+                if (player.hasPermission("pe.kill.promote")) {
+                    if (entity instanceof Animals) {
+                        if (!plugin.getPluginConfig().getBoolean("kill.countFriendlyMobs")) {
+                            return;
+                        }
                     }
-                }
 
-                if (plugin.getKills().contains(player.getUniqueId().toString())) {
-                    if (entity instanceof Player) {
-                        int playerKills = plugin.getKills().getInt(player.getUniqueId().toString() + ".playerKills");
-                        plugin.getKills().set(player.getUniqueId().toString() + ".players", playerKills + 1);
-                    } else if (entity instanceof Monster) {
-                        int mobKills = plugin.getKills().getInt(player.getUniqueId().toString() + ".mobKills");
-                        plugin.getKills().set(player.getUniqueId().toString() + ".mobs", mobKills + 1);
+                    if (plugin.getKills().contains(player.getUniqueId().toString())) {
+                        if (entity instanceof Player) {
+                            int playerKills = plugin.getKills().getInt(player.getUniqueId().toString() + ".playerKills");
+                            plugin.getKills().set(player.getUniqueId().toString() + ".players", playerKills + 1);
+                        } else if (entity instanceof Monster) {
+                            int mobKills = plugin.getKills().getInt(player.getUniqueId().toString() + ".mobKills");
+                            plugin.getKills().set(player.getUniqueId().toString() + ".mobs", mobKills + 1);
+                        }
+                    } else {
+                        if (entity instanceof Player) {
+                            plugin.getKills().set(player.getUniqueId().toString() + ".players", 1);
+                        } else if (entity instanceof Monster) {
+                            plugin.getKills().set(player.getUniqueId().toString() + ".mobs", 1);
+                        }
                     }
-                } else {
-                    if (entity instanceof Player) {
-                        plugin.getKills().set(player.getUniqueId().toString() + ".players", 1);
-                    } else if (entity instanceof Monster) {
-                        plugin.getKills().set(player.getUniqueId().toString() + ".mobs", 1);
-                    }
-                }
 
-                checkForKillRankup(player);
+                    checkForKillRankup(player);
+                }
             }
         }
     }
@@ -67,9 +70,13 @@ public class PlayerKillListener implements Listener {
             }
         }
 
-        if (!plugin.getPermission().getPrimaryGroup(player).equalsIgnoreCase(highestRankEarned)) {
-            plugin.getPermission().playerRemoveGroup(player, plugin.getPermission().getPrimaryGroup(player));
-            plugin.getPermission().playerAddGroup(player, highestRankEarned);
+        if (highestRankEarned != null) {
+            if (!plugin.getPermission().getPrimaryGroup(player).equalsIgnoreCase(highestRankEarned)) {
+                plugin.getPermission().playerRemoveGroup(player, plugin.getPermission().getPrimaryGroup(player));
+                plugin.getPermission().playerAddGroup(player, highestRankEarned);
+
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("PromotedAfterKills").replace("%group%", highestRankEarned)));
+            }
         }
     }
 }

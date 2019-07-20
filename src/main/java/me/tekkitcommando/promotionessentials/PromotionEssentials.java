@@ -140,6 +140,7 @@ public class PromotionEssentials extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerMoveListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new SignChangeListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerKillListener(this),this);
     }
 
     private void setupConfigFiles() {
@@ -195,11 +196,11 @@ public class PromotionEssentials extends JavaPlugin {
         messages.setDefault("Join", "&a[PromotionEssentials] %player%, &aplease write /apply [Password] to get Permissions to build!");
         messages.setDefault("Mute", "&c[PromotionEssentials] You are not allowed to chat!");
         messages.setDefault("FunctionDisabled", "&c[PromotionEssentials] This function has been disabled by the server administrator!");
-        messages.setDefault("BuyRank", "&a[PromotionEssentials] Do you really want to buy %group% for %price%?");
         messages.setDefault("CantBuyRank", "&c[PromotionEssentials] You can not buy this rank! Either it doesn't exist or you already own it.");
         messages.setDefault("NoMoney", "&c[PromotionEssentials] You do not have enough money to buy this rank!");
         messages.setDefault("BoughtRank", "&a[PromotionEssentials] Bought rank %group%!");
         messages.setDefault("PromotedAfterTime", "&a[PromotionEssentials] You have been promoted to %group%!");
         messages.setDefault("InvalidArgs", "&c[PromotionEssentials] Invalid arguments!");
+        messages.setDefault("PromotedAfterKills", "&a[PromotionEssentials] You have been promoted to %group% for your kills!");
     }
 }
