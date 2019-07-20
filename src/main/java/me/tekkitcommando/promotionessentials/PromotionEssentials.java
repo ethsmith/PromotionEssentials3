@@ -11,7 +11,6 @@ import me.tekkitcommando.promotionessentials.handler.TaskHandler;
 import me.tekkitcommando.promotionessentials.listener.*;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,7 +25,7 @@ public class PromotionEssentials extends JavaPlugin {
     private Yaml messages = new Yaml("messages", getDataFolder().getAbsolutePath());
     private Json tokens = new Json("token", getDataFolder().getAbsolutePath());
     private Json times = new Json("times", getDataFolder().getAbsolutePath());
-    private Map<Player, String> confirmations = new HashMap<>();
+    private Json kills = new Json("kills", getDataFolder().getAbsolutePath());
     private PermissionsHandler permissionsHandler = new PermissionsHandler(this);
     private DateTimeHandler dateTimeHandler = new DateTimeHandler();
     private TaskHandler taskHandler = new TaskHandler();
@@ -89,8 +88,8 @@ public class PromotionEssentials extends JavaPlugin {
         return times;
     }
 
-    public Map<Player, String> getConfirmations() {
-        return confirmations;
+    public Json getKills() {
+        return kills;
     }
 
     public Permission getPermission() {
@@ -174,6 +173,15 @@ public class PromotionEssentials extends JavaPlugin {
         config.setDefault("buy.rankListHeader", "&aPurchasable Ranks");
         config.setDefault("buy.rankListColor", "RED");
         config.setDefault("buy.groups", purchasedRanks);
+
+        config.setDefault("kill.enabled", false);
+        config.setDefault("kill.countFriendlyMobs", false);
+        config.setDefault("kill.member.players", 10);
+        config.setDefault("kill.member.mobs", 10);
+        config.setDefault("kill.elite.players", 100);
+        config.setDefault("kill.elite.mobs", 100);
+        config.setDefault("kill.legend.players", 1000);
+        config.setDefault("kill.legend.mobs", 1000);
 
         messages.setDefault("NoPermissions", "&c[PromotionEssentials] You do not have permission to do this!");
         messages.setDefault("CreatedSign", "&a[PromotionEssentials] Successfully created a promotion sign!");
