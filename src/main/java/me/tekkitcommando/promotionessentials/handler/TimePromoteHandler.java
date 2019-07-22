@@ -14,6 +14,7 @@ public class TimePromoteHandler {
 
     private PromotionEssentials plugin;
     private Map<String, String> timedRanks;
+    private Map<Player, Integer> totalTime = new HashMap<>();
 
     public TimePromoteHandler(PromotionEssentials plugin) {
         this.plugin = plugin;
@@ -24,13 +25,15 @@ public class TimePromoteHandler {
         return timedRanks;
     }
 
+    public Map<Player, Integer> getTotalTime() {
+        return totalTime;
+    }
+
     public int startTimePromote() {
         return Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
-            Map<Player, Integer> totalTimes = new HashMap<>();
-
             for (Player player : plugin.getServer().getOnlinePlayers()) {
-                totalTimes.put(player, getTotalTime(player));
-                String rankEarned = calculatePromotion(totalTimes.get(player));
+                int totalTime = getTotalTime(player);
+                String rankEarned = calculatePromotion(totalTime);
 
                 if (rankEarned != null) {
                     if (!(plugin.getPermission().getPrimaryGroup(player).equalsIgnoreCase(rankEarned))) {
@@ -46,8 +49,15 @@ public class TimePromoteHandler {
 
     private int getTotalTime(Player player) {
         DateTime latestLogin = plugin.getDateTimeHandler().getFormatter().parseDateTime(plugin.getTimes().getString(player.getUniqueId().toString() + ".latestLogin"));
-        int prevTotalTime = plugin.getTimes().getInt(player.getUniqueId().toString() + ".totalTime");
+        int prevTotalTime = 0;
         int ticksToAdd = 0;
+
+        if (!totalTime.containsKey(player)) {
+            prevTotalTime = plugin.getTimes().getInt(player.getUniqueId().toString() + ".totalTime");
+            totalTime.put(player, prevTotalTime);
+        } else {
+            prevTotalTime = totalTime.get(player);
+        }
 
         if (plugin.getPluginConfig().getBoolean("time.countOffine")) {
             DateTime lastLogoff = plugin.getDateTimeHandler().getFormatter().parseDateTime(plugin.getTimes().getString(player.getUniqueId().toString() + ".lastLogoff"));
@@ -61,8 +71,9 @@ public class TimePromoteHandler {
 
         DateTime dateTimeNow = plugin.getDateTimeHandler().getDateTime();
         ticksToAdd += Seconds.secondsBetween(latestLogin, dateTimeNow).getSeconds() * 20;
+        totalTime.replace(player, (prevTotalTime + ticksToAdd));
 
-        return prevTotalTime + ticksToAdd;
+        return totalTime.get(player);
     }
 
     private String calculatePromotion(int totalTime) {

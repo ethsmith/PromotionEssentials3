@@ -23,6 +23,7 @@ public class PlayerLeaveListener implements Listener {
             DateTime dateTimeNow = plugin.getDateTimeHandler().getDateTime();
 
             plugin.getTimes().set(player.getUniqueId().toString() + ".lastLogoff", dateTimeNow.toString(plugin.getDateTimeHandler().getFormatter()));
+            plugin.getTimes().set(player.getUniqueId().toString() + ".totalTime", plugin.getTimePromoteHandler().getTotalTime().get(player));
         }
     }
 }

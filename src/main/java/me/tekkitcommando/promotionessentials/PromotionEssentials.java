@@ -43,6 +43,7 @@ public class PromotionEssentials extends JavaPlugin {
 
             for (Player player : getServer().getOnlinePlayers()) {
                 times.set(player.getUniqueId().toString() + ".lastLogoff", dateTimeNow.toString(dateTimeHandler.getFormatter()));
+                times.set(player.getUniqueId().toString() + ".totalTime", timePromoteHandler.getTotalTime().get(player));
             }
         }
 
