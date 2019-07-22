@@ -122,7 +122,7 @@ public class TokenCommand implements CommandExecutor {
             return null;
         }
 
-        DateTime dateTimeNow = plugin.getDateTimeHandler().getDateTime(formatter);
+        DateTime dateTimeNow = plugin.getDateTimeHandler().getDateTime();
         DateTime dateTimeExpired = dateTimeNow.plus(Hours.hours(hours)).plus(Minutes.minutes(minutes)).plus(Seconds.seconds(seconds));
         String dateTimeExpiredStr = dateTimeExpired.toString(formatter);
 

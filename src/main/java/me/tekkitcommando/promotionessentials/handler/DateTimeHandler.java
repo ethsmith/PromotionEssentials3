@@ -8,7 +8,7 @@ public class DateTimeHandler {
 
     private DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
 
-    public DateTime getDateTime(DateTimeFormatter formatter) {
+    public DateTime getDateTime() {
         DateTime dateTimeNow = DateTime.now();
         String dateTimeString = dateTimeNow.toString(formatter);
 

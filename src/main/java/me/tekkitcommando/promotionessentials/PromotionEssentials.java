@@ -7,12 +7,14 @@ import me.tekkitcommando.promotionessentials.command.RankCommand;
 import me.tekkitcommando.promotionessentials.command.TokenCommand;
 import me.tekkitcommando.promotionessentials.handler.DateTimeHandler;
 import me.tekkitcommando.promotionessentials.handler.PermissionsHandler;
-import me.tekkitcommando.promotionessentials.handler.TaskHandler;
+import me.tekkitcommando.promotionessentials.handler.TimePromoteHandler;
 import me.tekkitcommando.promotionessentials.listener.*;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.joda.time.DateTime;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +30,7 @@ public class PromotionEssentials extends JavaPlugin {
     private Json kills = new Json("kills", getDataFolder().getAbsolutePath());
     private PermissionsHandler permissionsHandler = new PermissionsHandler(this);
     private DateTimeHandler dateTimeHandler = new DateTimeHandler();
-    private TaskHandler taskHandler = new TaskHandler();
+    private TimePromoteHandler timePromoteHandler = new TimePromoteHandler(this);
 
     // Vault
     private Economy economy = null;
@@ -36,6 +38,14 @@ public class PromotionEssentials extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        if (config.getBoolean("time.enabled")) {
+            DateTime dateTimeNow = dateTimeHandler.getDateTime();
+
+            for (Player player : getServer().getOnlinePlayers()) {
+                times.set(player.getUniqueId().toString() + ".lastLogoff", dateTimeNow.toString(dateTimeHandler.getFormatter()));
+            }
+        }
+
         logger.info("[PromotionEssentials] Disabled!");
     }
 
@@ -43,14 +53,13 @@ public class PromotionEssentials extends JavaPlugin {
     public void onEnable() {
         logger = this.getLogger();
 
-
         if (!(registerEconomy())) {
-            logger.warning("[PromotionEssentials] You must have vault installed for this plugin!");
+            logger.warning("You must have vault installed for this plugin!");
             getServer().getPluginManager().disablePlugin(this);
         }
 
         if (!(registerPermission())) {
-            logger.warning("[PromotionEssentials] You must have vault installed for this plugin!");
+            logger.warning("You must have vault installed for this plugin!");
             getServer().getPluginManager().disablePlugin(this);
         }
 
@@ -59,13 +68,17 @@ public class PromotionEssentials extends JavaPlugin {
         setupListeners();
 
         if (permissionsHandler.getPermissionSystem() == null) {
-            logger.warning("[PromotionEssentials] No permissions system found. Disabling plugin.");
+            logger.warning("No permissions system found. Disabling plugin.");
             getServer().getPluginManager().disablePlugin(this);
         } else {
-            logger.info("[PromotionEssentials] Using " + permissionsHandler.getPermissionSystem() + " for promotions.");
+            logger.info("Using " + permissionsHandler.getPermissionSystem() + " for promotions.");
         }
 
-        logger.info("[PromotionEssentials] Enabled!");
+        if (config.getBoolean("time.enabled")) {
+            timePromoteHandler.startTimePromote();
+        }
+
+        logger.info("Enabled!");
     }
 
     public Logger getPluginLogger() {
@@ -104,8 +117,8 @@ public class PromotionEssentials extends JavaPlugin {
         return dateTimeHandler;
     }
 
-    public TaskHandler getTaskHandler() {
-        return taskHandler;
+    public TimePromoteHandler getTimePromoteHandler() {
+        return timePromoteHandler;
     }
 
     private boolean registerEconomy() {
@@ -141,6 +154,7 @@ public class PromotionEssentials extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new SignChangeListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerKillListener(this),this);
+        getServer().getPluginManager().registerEvents(new PlayerLeaveListener(this), this);
     }
 
     private void setupConfigFiles() {
