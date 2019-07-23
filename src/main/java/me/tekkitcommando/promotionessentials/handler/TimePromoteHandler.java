@@ -14,7 +14,7 @@ public class TimePromoteHandler {
 
     private PromotionEssentials plugin;
     private Map<String, String> timedRanks;
-    private Map<Player, Integer> totalTime = new HashMap<>();
+    private Map<Player, Long> totalTime = new HashMap<>();
 
     public TimePromoteHandler(PromotionEssentials plugin) {
         this.plugin = plugin;
@@ -25,14 +25,14 @@ public class TimePromoteHandler {
         return timedRanks;
     }
 
-    public Map<Player, Integer> getTotalTime() {
+    public Map<Player, Long> getTotalTime() {
         return totalTime;
     }
 
     public int startTimePromote() {
         return Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
             for (Player player : plugin.getServer().getOnlinePlayers()) {
-                int totalTime = getTotalTime(player);
+                long totalTime = getTotalTime(player);
                 String rankEarned = calculatePromotion(totalTime);
 
                 if (rankEarned != null) {
@@ -47,13 +47,13 @@ public class TimePromoteHandler {
         }, 20L, 20L);
     }
 
-    private int getTotalTime(Player player) {
+    private long getTotalTime(Player player) {
         DateTime latestLogin = plugin.getDateTimeHandler().getFormatter().parseDateTime(plugin.getTimes().getString(player.getUniqueId().toString() + ".latestLogin"));
-        int prevTotalTime = 0;
-        int ticksToAdd = 0;
+        long prevTotalTime;
+        long ticksToAdd = 0;
 
         if (!totalTime.containsKey(player)) {
-            prevTotalTime = plugin.getTimes().getInt(player.getUniqueId().toString() + ".totalTime");
+            prevTotalTime = plugin.getTimes().getLong(player.getUniqueId().toString() + ".totalTime");
             totalTime.put(player, prevTotalTime);
         } else {
             prevTotalTime = totalTime.get(player);
@@ -76,7 +76,7 @@ public class TimePromoteHandler {
         return totalTime.get(player);
     }
 
-    private String calculatePromotion(int totalTime) {
+    private String calculatePromotion(long totalTime) {
         String highestRankEarned = null;
 
         for (String rank : timedRanks.keySet()) {

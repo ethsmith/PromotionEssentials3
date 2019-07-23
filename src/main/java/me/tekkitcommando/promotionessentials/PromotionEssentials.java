@@ -47,7 +47,7 @@ public class PromotionEssentials extends JavaPlugin {
             }
         }
 
-        logger.info("[PromotionEssentials] Disabled!");
+        logger.info("Disabled!");
     }
 
     @Override
