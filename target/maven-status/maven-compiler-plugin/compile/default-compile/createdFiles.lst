@@ -1,3 +1,4 @@
+me\tekkitcommando\promotionessentials\handler\PromotionHandler.class
 me\tekkitcommando\promotionessentials\listener\PlayerLeaveListener.class
 me\tekkitcommando\promotionessentials\listener\PlayerMoveListener.class
 me\tekkitcommando\promotionessentials\listener\SignChangeListener.class

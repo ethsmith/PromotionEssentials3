@@ -56,9 +56,7 @@ public class RankCommand implements CommandExecutor {
                                 if (!plugin.getPermission().getPrimaryGroup(player).equalsIgnoreCase(rank)) {
                                     if (plugin.getEconomy().has(player, plugin.getConfig().getDouble("buy.groups." + rank))) {
                                         plugin.getEconomy().withdrawPlayer(player, plugin.getConfig().getDouble("buy.groups." + rank));
-                                        plugin.getPermission().playerRemoveGroup(player, plugin.getPermission().getPrimaryGroup(player));
-                                        plugin.getPermission().playerAddGroup(player, rank);
-
+                                        plugin.getPromotionHandler().promotePlayer(player, rank);
                                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("BoughtRank")).replace("%group%", rank));
                                     } else {
                                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("NoMoney")));

@@ -7,6 +7,7 @@ import me.tekkitcommando.promotionessentials.command.RankCommand;
 import me.tekkitcommando.promotionessentials.command.TokenCommand;
 import me.tekkitcommando.promotionessentials.handler.DateTimeHandler;
 import me.tekkitcommando.promotionessentials.handler.PermissionsHandler;
+import me.tekkitcommando.promotionessentials.handler.PromotionHandler;
 import me.tekkitcommando.promotionessentials.handler.TimePromoteHandler;
 import me.tekkitcommando.promotionessentials.listener.*;
 import net.milkbowl.vault.economy.Economy;
@@ -16,7 +17,9 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -31,6 +34,7 @@ public class PromotionEssentials extends JavaPlugin {
     private PermissionsHandler permissionsHandler = new PermissionsHandler(this);
     private DateTimeHandler dateTimeHandler = new DateTimeHandler();
     private TimePromoteHandler timePromoteHandler = new TimePromoteHandler(this);
+    private PromotionHandler promotionHandler = new PromotionHandler(this);
 
     // Vault
     private Economy economy = null;
@@ -122,6 +126,10 @@ public class PromotionEssentials extends JavaPlugin {
         return timePromoteHandler;
     }
 
+    public PromotionHandler getPromotionHandler() {
+        return promotionHandler;
+    }
+
     private boolean registerEconomy() {
         RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
 
@@ -161,6 +169,9 @@ public class PromotionEssentials extends JavaPlugin {
     private void setupConfigFiles() {
         Map<String, String> timedRanks = new HashMap<>();
         Map<String, Double> purchasedRanks = new HashMap<>();
+        List<String> noPromote = new ArrayList<>();
+        List<String> consoleCommands = new ArrayList<>();
+        List<String> playerCommands = new ArrayList<>();
 
         timedRanks.put("member", "00h15m30s");
         timedRanks.put("elite", "24h00m00s");
@@ -169,6 +180,14 @@ public class PromotionEssentials extends JavaPlugin {
         purchasedRanks.put("member", 1000.00);
         purchasedRanks.put("elite", 10000.00);
         purchasedRanks.put("legend", 100000.00);
+
+        noPromote.add("Admin");
+        noPromote.add("Mod");
+        noPromote.add("Helper");
+        noPromote.add("Owner");
+
+        consoleCommands.add("eco give %player% 1000");
+        playerCommands.add("me got promoted to %group%");
 
         config.setDefault("token.enabled", true);
 
@@ -183,6 +202,7 @@ public class PromotionEssentials extends JavaPlugin {
 
         config.setDefault("time.enabled", false);
         config.setDefault("time.groups", timedRanks);
+        config.setDefault("time.noPromote", noPromote);
         config.setDefault("time.countOffline", false);
 
         config.setDefault("buy.enabled", true);
@@ -198,6 +218,9 @@ public class PromotionEssentials extends JavaPlugin {
         config.setDefault("kill.elite.mobs", 100);
         config.setDefault("kill.legend.players", 1000);
         config.setDefault("kill.legend.mobs", 1000);
+
+        config.setDefault("commands.member.console", consoleCommands);
+        config.setDefault("commands.member.player", playerCommands);
 
         messages.setDefault("NoPermissions", "&c[PromotionEssentials] You do not have permission to do this!");
         messages.setDefault("CreatedSign", "&a[PromotionEssentials] Successfully created a promotion sign!");

@@ -5,7 +5,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.List;
 
 public class ApplyCommand implements CommandExecutor {
 
@@ -39,7 +42,9 @@ public class ApplyCommand implements CommandExecutor {
                             plugin.getPermission().playerRemoveGroup(player, plugin.getPluginConfig().getString("apply.default"));
                             plugin.getPermission().playerAddGroup(player, plugin.getPluginConfig().getString("apply.promotion"));
 
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("UsedPW").replace("%group%", plugin.getPluginConfig().getString("apply.default"))));
+                            plugin.getPromotionHandler().performPromotionCommands(player, plugin.getPluginConfig().getString("apply.promotion"));
+
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("UsedPW").replace("%group%", plugin.getPluginConfig().getString("apply.promotion"))));
                         } else {
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("WrongPW")));
 

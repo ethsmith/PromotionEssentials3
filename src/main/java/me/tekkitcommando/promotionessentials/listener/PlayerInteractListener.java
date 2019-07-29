@@ -45,8 +45,7 @@ public class PlayerInteractListener implements Listener {
                             if (!plugin.getPermission().getPrimaryGroup(player).equalsIgnoreCase(group)) {
                                 if (plugin.getEconomy().has(player, price)) {
                                     plugin.getEconomy().withdrawPlayer(player, price);
-                                    plugin.getPermission().playerRemoveGroup(player, plugin.getPermission().getPrimaryGroup(player));
-                                    plugin.getPermission().playerAddGroup(player, group);
+                                    plugin.getPromotionHandler().promotePlayer(player, group);
                                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("UsedSign")).replace("%group%", group));
                                 } else {
                                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("NoMoney")));

@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Seconds;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TimePromoteHandler {
@@ -34,13 +35,14 @@ public class TimePromoteHandler {
             for (Player player : plugin.getServer().getOnlinePlayers()) {
                 long totalTime = getTotalTime(player);
                 String rankEarned = calculatePromotion(totalTime);
+                List<String> noPromoteList = plugin.getPluginConfig().getStringList("time.noPromote");
 
                 if (rankEarned != null) {
-                    if (!(plugin.getPermission().getPrimaryGroup(player).equalsIgnoreCase(rankEarned))) {
-                        plugin.getPermission().playerRemoveGroup(player, plugin.getPermission().getPrimaryGroup(player));
-                        plugin.getPermission().playerAddGroup(player, rankEarned);
-
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("PromotedAfterTime")).replace("%group%", rankEarned));
+                    if (!(noPromoteList.contains(plugin.getPermission().getPrimaryGroup(player)))) {
+                        if (!(plugin.getPermission().getPrimaryGroup(player).equalsIgnoreCase(rankEarned))) {
+                            plugin.getPromotionHandler().promotePlayer(player, rankEarned);
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("PromotedAfterTime")).replace("%group%", rankEarned));
+                        }
                     }
                 }
             }

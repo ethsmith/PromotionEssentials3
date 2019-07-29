@@ -72,9 +72,7 @@ public class PlayerKillListener implements Listener {
 
         if (highestRankEarned != null) {
             if (!plugin.getPermission().getPrimaryGroup(player).equalsIgnoreCase(highestRankEarned)) {
-                plugin.getPermission().playerRemoveGroup(player, plugin.getPermission().getPrimaryGroup(player));
-                plugin.getPermission().playerAddGroup(player, highestRankEarned);
-
+                plugin.getPromotionHandler().promotePlayer(player, highestRankEarned);
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("PromotedAfterKills").replace("%group%", highestRankEarned)));
             }
         }

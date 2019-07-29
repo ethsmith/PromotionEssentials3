@@ -49,16 +49,13 @@ public class TokenCommand implements CommandExecutor {
                                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("TokenExpired")));
                                     plugin.getTokens().removeKey(token);
                                 } else {
-                                    plugin.getPermission().playerRemoveGroup(player, plugin.getPermission().getPrimaryGroup(player));
-                                    plugin.getPermission().playerAddGroup(player, plugin.getTokens().getString(token + ".group"));
+                                    plugin.getPromotionHandler().promotePlayer(player, plugin.getTokens().getString(token + ".group"));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("TokenUse")).replace("%group%", plugin.getTokens().getString(token + ".group")));
                                     plugin.getTokens().removeKey(token);
                                 }
                             } else {
-                                plugin.getPermission().playerRemoveGroup(player, plugin.getPermission().getPrimaryGroup(player));
-                                plugin.getPermission().playerAddGroup(player, plugin.getTokens().getString(token + ".group"));
-
+                                plugin.getPromotionHandler().promotePlayer(player, plugin.getTokens().getString(token + ".group"));
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("TokenUse")).replace("%group%", plugin.getTokens().getString(token + ".group")));
-
                                 plugin.getTokens().removeKey(token);
                             }
                         } else {
