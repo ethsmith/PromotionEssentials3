@@ -40,7 +40,7 @@ public class ApplyCommand implements CommandExecutor {
                         if (plugin.getPluginConfig().getString("apply.password").equals(password)) {
                             // Promote player
                             plugin.getPermission().playerRemoveGroup(player, plugin.getPluginConfig().getString("apply.default"));
-                            plugin.getPermission().playerAddGroup(player, plugin.getPluginConfig().getString("apply.promotion"));
+                            plugin.getPermission().playerAddGroup(null, player, plugin.getPluginConfig().getString("apply.promotion"));
 
                             plugin.getPromotionHandler().performPromotionCommands(player, plugin.getPluginConfig().getString("apply.promotion"));
 

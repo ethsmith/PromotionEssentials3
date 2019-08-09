@@ -16,7 +16,7 @@ public class PromotionHandler {
 
     public void promotePlayer(Player player, String rank) {
         plugin.getPermission().playerRemoveGroup(player, plugin.getPermission().getPrimaryGroup(player));
-        plugin.getPermission().playerAddGroup(player, rank);
+        plugin.getPermission().playerAddGroup(null, player, rank);
 
         performPromotionCommands(player, rank);
     }

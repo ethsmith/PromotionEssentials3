@@ -24,54 +24,57 @@ public class RankCommand implements CommandExecutor {
                 sender.sendMessage("You must be a player to list/buy ranks!");
             } else {
                 Player player = (Player) sender;
-                String subcommand = args[0];
 
                 if (!(plugin.getPluginConfig().getBoolean("buy.enabled"))) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("FunctionDisabled")));
                     return true;
                 }
 
-                if (args.length == 1) {
-                    if (subcommand.equalsIgnoreCase("list")) {
-                        if (player.hasPermission("pe.rank.list")) {
-                            Set<String> ranks = plugin.getPluginConfig().getMap("buy.groups").keySet();
+                if (args.length > 0) {
+                    String subcommand = args[0];
 
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getPluginConfig().getString("buy.rankListHeader")));
+                    if (args.length == 1) {
+                        if (subcommand.equalsIgnoreCase("list")) {
+                            if (player.hasPermission("pe.rank.list")) {
+                                Set<String> ranks = plugin.getPluginConfig().getMap("buy.groups").keySet();
 
-                            for (String rank : ranks) {
-                                player.sendMessage(ChatColor.valueOf(plugin.getPluginConfig().getString("buy.rankListColor")) + rank);
-                            }
-                        } else {
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("NoPermissions")));
-                        }
-                    } else {
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("InvalidArgs")));
-                    }
-                } else if (args.length == 2) {
-                    String rank = args[1];
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getPluginConfig().getString("buy.rankListHeader")));
 
-                    if (subcommand.equalsIgnoreCase("buy")) {
-                        if (plugin.getPluginConfig().contains("buy.groups." + rank)) {
-                            if (player.hasPermission("pe.rank.buy." + rank) || player.hasPermission("pe.rank.buy.*")) {
-                                if (!plugin.getPermission().getPrimaryGroup(player).equalsIgnoreCase(rank)) {
-                                    if (plugin.getEconomy().has(player, plugin.getConfig().getDouble("buy.groups." + rank))) {
-                                        plugin.getEconomy().withdrawPlayer(player, plugin.getConfig().getDouble("buy.groups." + rank));
-                                        plugin.getPromotionHandler().promotePlayer(player, rank);
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("BoughtRank")).replace("%group%", rank));
-                                    } else {
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("NoMoney")));
-                                    }
-                                } else {
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("CantBuyRank")));
+                                for (String rank : ranks) {
+                                    player.sendMessage(ChatColor.valueOf(plugin.getPluginConfig().getString("buy.rankListColor")) + rank);
                                 }
                             } else {
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("NoPermissions")));
                             }
                         } else {
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("CantBuyRank")));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("InvalidArgs")));
                         }
-                    } else {
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("InvalidArgs")));
+                    } else if (args.length == 2) {
+                        String rank = args[1];
+
+                        if (subcommand.equalsIgnoreCase("buy")) {
+                            if (plugin.getPluginConfig().contains("buy.groups." + rank)) {
+                                if (player.hasPermission("pe.rank.buy." + rank) || player.hasPermission("pe.rank.buy.*")) {
+                                    if (!plugin.getPermission().getPrimaryGroup(player).equalsIgnoreCase(rank)) {
+                                        if (plugin.getEconomy().has(player, plugin.getConfig().getDouble("buy.groups." + rank))) {
+                                            plugin.getEconomy().withdrawPlayer(player, plugin.getConfig().getDouble("buy.groups." + rank));
+                                            plugin.getPromotionHandler().promotePlayer(player, rank);
+                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("BoughtRank")).replace("%group%", rank));
+                                        } else {
+                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("NoMoney")));
+                                        }
+                                    } else {
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("CantBuyRank")));
+                                    }
+                                } else {
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("NoPermissions")));
+                                }
+                            } else {
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("CantBuyRank")));
+                            }
+                        } else {
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("InvalidArgs")));
+                        }
                     }
                 } else {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("InvalidArgs")));

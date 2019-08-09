@@ -6,7 +6,7 @@
 
     <groupId>me.tekkitcommando</groupId>
     <artifactId>promotionessentials2</artifactId>
-    <version>2.0.4-SNAPSHOT</version>
+    <version>2.0.6-SNAPSHOT</version>
 
     <build>
         <plugins>
@@ -27,6 +27,14 @@
                     <relocations>
                         <relocation>
                             <pattern>de.leonhard</pattern>
+                            <shadedPattern>me.tekkitcommando.promotionessentials</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.bstats</pattern>
+                            <shadedPattern>me.tekkitcommando.promotionessentials</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.joda</pattern>
                             <shadedPattern>me.tekkitcommando.promotionessentials</shadedPattern>
                         </relocation>
                     </relocations>
@@ -58,6 +66,11 @@
         <repository>
             <id>bungeecord-repo</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+
+        <repository>
+            <id>CodeMC</id>
+            <url>https://repo.codemc.org/repository/maven-public</url>
         </repository>
     </repositories>
 
@@ -93,6 +106,13 @@
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>2.10.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>1.5</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

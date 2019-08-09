@@ -12,4 +12,4 @@ commands:
   token:
     usage: /token <token>
   rank:
-    usage: /rank <subcommand>
+    usage: /rank [subcommand]

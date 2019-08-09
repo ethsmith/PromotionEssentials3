@@ -12,6 +12,7 @@ import me.tekkitcommando.promotionessentials.handler.TimePromoteHandler;
 import me.tekkitcommando.promotionessentials.listener.*;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,6 +36,7 @@ public class PromotionEssentials extends JavaPlugin {
     private DateTimeHandler dateTimeHandler = new DateTimeHandler();
     private TimePromoteHandler timePromoteHandler = new TimePromoteHandler(this);
     private PromotionHandler promotionHandler = new PromotionHandler(this);
+    private Metrics metrics;
 
     // Vault
     private Economy economy = null;
@@ -81,6 +83,10 @@ public class PromotionEssentials extends JavaPlugin {
 
         if (config.getBoolean("time.enabled")) {
             timePromoteHandler.startTimePromote();
+        }
+
+        if (config.getBoolean("metrics.enabled")) {
+            metrics = new Metrics(this);
         }
 
         logger.info("Enabled!");
@@ -188,6 +194,8 @@ public class PromotionEssentials extends JavaPlugin {
 
         consoleCommands.add("eco give %player% 1000");
         playerCommands.add("me got promoted to %group%");
+
+        config.setDefault("metrics.enabled", true);
 
         config.setDefault("token.enabled", true);
 
