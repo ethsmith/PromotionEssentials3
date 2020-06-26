@@ -1,10 +1,10 @@
 name: PromotionEssentials
-authors: [TekkitCommando]
-version: 2.0.0
+authors: [ethsmith]
+version: 3.0.0
 
 depend: [Vault]
 
-main: me.tekkitcommando.promotionessentials.PromotionEssentials
+main: me.tekkitcommando.pe.PromotionEssentials
 
 commands:
   apply:
