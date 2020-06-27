@@ -18,6 +18,8 @@ public class TimeManager {
     private static final Map<UUID, Long> playTime = new HashMap<>();
     @Getter
     private static int timerId;
+    @Getter
+    private static boolean countOffline;
 
     public static int startTimePromote() {
         int id = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
@@ -49,7 +51,8 @@ public class TimeManager {
 
     public static long getTotalTime(UUID uuid) {
         // DateTime of the first time they ever joined
-
+        // DateTime of now
+        // Calculate the seconds of that
         return 0L;
     }
 
