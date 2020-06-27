@@ -1,12 +1,16 @@
 package me.tekkitcommando.pe.time;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.tekkitcommando.pe.PromotionEssentials;
+import me.tekkitcommando.pe.data.DataManager;
 import me.tekkitcommando.pe.promote.Promotion;
 import me.tekkitcommando.pe.promote.PromotionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -14,23 +18,33 @@ import java.util.UUID;
 public class TimeManager {
 
     private static final PromotionEssentials plugin = PromotionEssentials.getInstance();
+
     @Getter
     private static final Map<UUID, Long> playTime = new HashMap<>();
     @Getter
     private static int timerId;
+
     @Getter
+    @Setter
     private static boolean countOffline;
 
     public static int startTimePromote() {
-        int id = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+        timerId = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
             public void run() {
                 for (Player player : plugin.getServer().getOnlinePlayers()) {
                     UUID playerId = player.getUniqueId();
+                    long playTimeSec;
+
                     // add one second to their total time
                     playTime.replace(playerId, getTotalTimePlayed(playerId) + 1L);
-                    // get there total time
-                    long playTimeSec = getTotalTimePlayed(playerId);
+
+                    // get there total time played or as a whole
+                    if (countOffline)
+                        playTimeSec = getTotalTime(playerId);
+                    else
+                        playTimeSec = getTotalTimePlayed(playerId);
+
                     // see what rank they earned
                     String eligibleRank = PromotionManager.calculatePromotion(playerId, playTimeSec);
                     // promote them if they don't already have that rank adn they aren't an admin rank
@@ -41,8 +55,7 @@ public class TimeManager {
             }
         }, 20L, 20L);
 
-        timerId = id;
-        return id;
+        return timerId;
     }
 
     public static long getTotalTimePlayed(UUID uuid) {
@@ -51,9 +64,12 @@ public class TimeManager {
 
     public static long getTotalTime(UUID uuid) {
         // DateTime of the first time they ever joined
+        LocalDateTime firstJoin = LocalDateTime.parse(DataManager.getTimes().getString(uuid.toString() + ".firstJoin"));
         // DateTime of now
+        LocalDateTime now = LocalDateTime.now();
+
         // Calculate the seconds of that
-        return 0L;
+        return ChronoUnit.SECONDS.between(firstJoin, now);
     }
 
 }

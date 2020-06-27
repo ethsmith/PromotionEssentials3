@@ -3,7 +3,6 @@ package me.tekkitcommando.pe.promote;
 import lombok.Getter;
 import me.tekkitcommando.pe.PromotionEssentials;
 import me.tekkitcommando.pe.permission.PermissionManager;
-import me.tekkitcommando.pe.time.TimeManager;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -19,22 +18,14 @@ public class PromotionManager {
 
     public static String calculatePromotion(UUID uuid, long playTimeSec) {
         Player player = plugin.getServer().getPlayer(uuid);
+        String rankEarned = null;
 
         if (blacklistedRanks.contains(PermissionManager.getPermissions().getPrimaryGroup(player))) {
             return null;
         }
 
-        String rankEarned = null;
-
-        long totalTime;
-
-        if (TimeManager.isCountOffline())
-            totalTime = TimeManager.getTotalTime(uuid);
-        else
-            totalTime = TimeManager.getTotalTimePlayed(uuid);
-
         for (String rank : timedRanks.keySet()) {
-            if (timedRanks.get(rank) <= totalTime) {
+            if (timedRanks.get(rank) <= playTimeSec) {
                 // eligable
                 rankEarned = rank;
             }
