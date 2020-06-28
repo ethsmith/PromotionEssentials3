@@ -7,6 +7,7 @@ import me.tekkitcommando.pe.data.DataManager;
 import me.tekkitcommando.pe.promote.Promotion;
 import me.tekkitcommando.pe.promote.PromotionManager;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
@@ -20,7 +21,7 @@ public class TimeManager {
     private static final PromotionEssentials plugin = PromotionEssentials.getInstance();
 
     @Getter
-    private static final Map<UUID, Long> playTime = new HashMap<>();
+    private static final Map<UUID, Long> playTimes = new HashMap<>();
     @Getter
     private static int timerId;
 
@@ -37,7 +38,10 @@ public class TimeManager {
                     long playTimeSec;
 
                     // add one second to their total time
-                    playTime.replace(playerId, getTotalTimePlayed(playerId) + 1L);
+                    if (playTimes.containsKey(playerId))
+                        playTimes.replace(playerId, getTotalTimePlayed(playerId) + 1L);
+                    else
+                        playTimes.put(playerId, 1L);
 
                     // get there total time played or as a whole
                     if (countOffline)
@@ -50,6 +54,7 @@ public class TimeManager {
                     // promote them if they don't already have that rank adn they aren't an admin rank
                     if (eligibleRank != null) {
                         new Promotion(player, eligibleRank);
+                        player.sendMessage(ChatColor.GREEN + DataManager.getMessages().getString("PromotedAfterTime").replace("%group%", eligibleRank));
                     }
                 }
             }
@@ -59,7 +64,7 @@ public class TimeManager {
     }
 
     public static long getTotalTimePlayed(UUID uuid) {
-        return playTime.get(uuid);
+        return playTimes.get(uuid);
     }
 
     public static long getTotalTime(UUID uuid) {

@@ -32,9 +32,9 @@ public class DataManager {
         List<String> consoleCommands = new ArrayList<>();
         List<String> playerCommands = new ArrayList<>();
 
-        timedRanks.put("member", "00h15m30s");
-        timedRanks.put("elite", "24h00m00s");
-        timedRanks.put("legend", "48h30m15s");
+        timedRanks.put("member", "100");
+        timedRanks.put("elite", "200");
+        timedRanks.put("legend", "300");
 
         purchasedRanks.put("member", 1000.00);
         purchasedRanks.put("elite", 10000.00);
@@ -63,7 +63,7 @@ public class DataManager {
 
         config.setDefault("time.enabled", false);
         config.setDefault("time.groups", timedRanks);
-        config.setDefault("time.noPromote", noPromote);
+        config.setDefault("time.blacklistRanks", noPromote);
         config.setDefault("time.countOffline", false);
 
         config.setDefault("buy.enabled", true);

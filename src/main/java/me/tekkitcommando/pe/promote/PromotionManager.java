@@ -1,6 +1,7 @@
 package me.tekkitcommando.pe.promote;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.tekkitcommando.pe.PromotionEssentials;
 import me.tekkitcommando.pe.permission.PermissionManager;
 import org.bukkit.entity.Player;
@@ -12,9 +13,11 @@ public class PromotionManager {
     private static final PromotionEssentials plugin = PromotionEssentials.getInstance();
 
     @Getter
-    private static final List<String> blacklistedRanks = new ArrayList<>();
+    @Setter
+    private static List<String> blacklistedRanks = new ArrayList<>();
     @Getter
-    private static final Map<String, Long> timedRanks = new HashMap<>();
+    @Setter
+    private static Map<String, Long> timedRanks = new HashMap<>();
 
     public static String calculatePromotion(UUID uuid, long playTimeSec) {
         Player player = plugin.getServer().getPlayer(uuid);
