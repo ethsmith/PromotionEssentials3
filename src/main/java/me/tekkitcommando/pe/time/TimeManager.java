@@ -54,7 +54,7 @@ public class TimeManager {
                     // promote them if they don't already have that rank adn they aren't an admin rank
                     if (eligibleRank != null) {
                         new Promotion(player, eligibleRank);
-                        player.sendMessage(ChatColor.GREEN + DataManager.getMessages().getString("PromotedAfterTime").replace("%group%", eligibleRank));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getMessages().getString("PromotedAfterTime")).replace("%group%", eligibleRank));
                     }
                 }
             }
@@ -76,5 +76,4 @@ public class TimeManager {
         // Calculate the seconds of that
         return ChronoUnit.SECONDS.between(firstJoin, now);
     }
-
 }

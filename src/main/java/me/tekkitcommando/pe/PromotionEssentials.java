@@ -2,6 +2,9 @@ package me.tekkitcommando.pe;
 
 import me.tekkitcommando.pe.data.DataManager;
 import me.tekkitcommando.pe.economy.EconomyManager;
+import me.tekkitcommando.pe.listener.PlayerInteractListener;
+import me.tekkitcommando.pe.listener.PlayerJoinListener;
+import me.tekkitcommando.pe.listener.SignChangeListener;
 import me.tekkitcommando.pe.permission.PermissionManager;
 import me.tekkitcommando.pe.promote.PromotionManager;
 import me.tekkitcommando.pe.time.TimeManager;
@@ -77,6 +80,9 @@ public class PromotionEssentials extends JavaPlugin {
 
         //CommandManager.setupCommands();
         //ListenerManager.setupListeners();
+        getServer().getPluginManager().registerEvents(new SignChangeListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
 
         if (DataManager.getConfig().getBoolean("metrics.enabled")) {
             new Metrics(this);
