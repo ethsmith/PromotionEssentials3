@@ -28,7 +28,7 @@ public class PlayerInteractListener implements Listener {
                 if (sign.getLine(0).equals(ChatColor.GREEN + "[Promote]")) {
                     String group = sign.getLine(1);
 
-                    if (player.hasPermission("pe.sign.use." + group) || player.hasPermission("pe.sign.use.*")) {
+                    if (player.hasPermission("pe.sign.use." + group) || player.hasPermission("pe.sign.use.*") || player.hasPermission("pe.*")) {
                         double price = Double.parseDouble(sign.getLine(2));
                         boolean rankExists = false;
 
