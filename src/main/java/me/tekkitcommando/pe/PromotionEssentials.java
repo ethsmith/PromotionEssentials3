@@ -19,6 +19,7 @@ public class PromotionEssentials extends JavaPlugin {
 
     private static PromotionEssentials instance;
     private Logger logger;
+    private Metrics metrics;
 
     public static PromotionEssentials getInstance() {
         return instance;
@@ -39,6 +40,7 @@ public class PromotionEssentials extends JavaPlugin {
     public void onEnable() {
         instance = this;
         this.logger = getLogger();
+        metrics = new Metrics(this);
 
         DataManager.setupConfigFiles();
 

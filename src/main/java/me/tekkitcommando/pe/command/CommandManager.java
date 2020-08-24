@@ -8,7 +8,7 @@ public class CommandManager {
 
     public static void setupCommands() {
         plugin.getCommand("apply").setExecutor(new ApplyCommand());
-        plugin.getCommand("token").setExecutor(new TokenCommand());
+        //plugin.getCommand("token").setExecutor(new TokenCommand());
         plugin.getCommand("rank").setExecutor(new RankCommand());
     }
 }
