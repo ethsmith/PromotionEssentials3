@@ -1,6 +1,6 @@
-package me.tekkitcommando.promotionessentials.listener;
+package me.tekkitcommando.pe.listener;
 
-import me.tekkitcommando.promotionessentials.PromotionEssentials;
+import me.tekkitcommando.pe.data.DataManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,12 +8,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 
 public class SignChangeListener implements Listener {
-
-    private PromotionEssentials plugin;
-
-    public SignChangeListener(PromotionEssentials plugin) {
-        this.plugin = plugin;
-    }
 
     @EventHandler
     public void onSignChange(SignChangeEvent event) {
@@ -33,13 +27,13 @@ public class SignChangeListener implements Listener {
                         return;
                     }
                     event.setLine(0, ChatColor.GREEN + "[Promote]");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("CreatedSign")));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getMessages().getString("CreatedSign")));
                 } else {
                     player.sendMessage(ChatColor.RED + "This type of sign requres the following format: [Promote]\n<rank>\n<price>");
                     event.setCancelled(true);
                 }
             } else {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("NoPermissions")));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getMessages().getString("NoPermissions")));
             }
         }
     }
