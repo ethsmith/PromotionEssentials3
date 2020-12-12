@@ -1,5 +1,8 @@
 package me.tekkitcommando.pe;
 
+import dev.jorel.commandapi.CommandAPI;
+import me.tekkitcommando.pe.command.ApplyCmd;
+import me.tekkitcommando.pe.command.RankCmd;
 import me.tekkitcommando.pe.data.DataManager;
 import me.tekkitcommando.pe.economy.EconomyManager;
 import me.tekkitcommando.pe.listener.PlayerInteractListener;
@@ -40,7 +43,6 @@ public class PromotionEssentials extends JavaPlugin {
     public void onEnable() {
         instance = this;
         this.logger = getLogger();
-        metrics = new Metrics(this);
 
         DataManager.setupConfigFiles();
 
@@ -80,16 +82,20 @@ public class PromotionEssentials extends JavaPlugin {
             TimeManager.startTimePromote();
         }
 
-        //CommandManager.setupCommands();
-        //ListenerManager.setupListeners();
         getServer().getPluginManager().registerEvents(new SignChangeListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
 
         if (DataManager.getConfig().getBoolean("metrics.enabled")) {
-            new Metrics(this);
+            metrics = new Metrics(this, 1184);
         }
 
         logger.info("Enabled!");
+    }
+
+    @Override
+    public void onLoad() {
+        CommandAPI.registerCommand(ApplyCmd.class);
+        CommandAPI.registerCommand(RankCmd.class);
     }
 }
