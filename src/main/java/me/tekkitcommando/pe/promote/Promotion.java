@@ -14,8 +14,15 @@ public class Promotion {
     public Promotion(Player player, String rank) {
 
         Permission permissions = PermissionManager.getPermissions();
-        permissions.playerRemoveGroup(player, permissions.getPrimaryGroup(player));
-        permissions.playerAddGroup(null, player, rank);
+        // Add new group
+        permissions.playerAddGroup(player, rank);
+
+        // Remove all groups, except the one we just added
+        for (String existing : permissions.getPlayerGroups(player)) {
+            if (!existing.equalsIgnoreCase(rank)) {
+                permissions.playerRemoveGroup(player, existing);
+            }
+        }
 
         List<String> consoleCommands = DataManager.getConfig().getStringList("commands." + rank + ".console");
         List<String> playerCommands = DataManager.getConfig().getStringList("commands." + rank + ".player");
